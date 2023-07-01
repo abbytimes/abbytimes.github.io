@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display&family=IBM+Plex+Serif:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.cdnfonts.com/css/cheltenham-lt"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.cdnfonts.com/css/tt-livret-display-trl"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <title>The Abby Times</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div
+          class="flex flex-col flex-wrap justify-center items-center mx-auto my-2"
+        >
+          <h1 class="text-4xl tracking-wide">The Abby Times</h1>
+          <p class="text-sm">
+            (porque una princesa también necesita su propio periódico)
+          </p>
+        </div>
+        <div
+          class="flex flex-wrap justify-around space-end bg-stone-200 border-t-2 border-b-2 border-gray-300"
+        >
+          <p class="mx-2" id="fecha">...</p>
+          <p class="mx-2" id="temperatura">...</p>
+        </div>
+      </nav>
+    </header>
+    <main class="mx-4">
+      <header
+        class="mt-4 text-center border-b-2 border-black py-2 dmserif flex flex-col flex-wrap justify-center items-center"
+      >
+        <h1 class="text-3xl dmserif uppercase">Desde nuestro equipo,</h1>
+        <h3>pedimos disculpas.</h3>
+        <p class="livret">La verdad, nos quedamos sin presupuesto (se nos anda acabando el viernes) para continuar estos tres artículos de Economía. Y por desgracia nuestro único desarrollador tiene la misma capacidad de concentración de un gato.</p>
+      </header>
+      </article>
+    </main>
+    <footer class="mt-6 mx-4 text-2xl pt-2 pb-4">
+      <h1>
+        Para volver (sorry), haga click
+        <a class="underline" href="../index.html">aquí.</a>
+      </h1>
+    </footer>
+    <script>
+      function setFecha() {
+        let d = new Date().toLocaleDateString('en-GB');
+        let t;
+        let elFecha = document.getElementById('fecha');
+        let elTemp = document.getElementById('temperatura');
+        elFecha.innerHTML = d;
+        fetch(
+          'https://api.open-meteo.com/v1/forecast?latitude=-12.04&longitude=-77.03&daily=temperature_2m_max,temperature_2m_min&current_weather=true&forecast_days=1&timezone=auto'
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            t = data['current_weather']['temperature'];
+            elTemp.innerHTML = t + '°';
+          });
+      }
+      setFecha();
+    </script>
+  </body>
+</html>
